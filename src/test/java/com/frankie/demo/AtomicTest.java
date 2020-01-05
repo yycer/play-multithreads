@@ -2,6 +2,7 @@ package com.frankie.demo;
 
 import com.frankie.demo.utils.AtomicOperationThread;
 import com.frankie.demo.utils.CommonOperationThread;
+import com.frankie.demo.utils.NoVisibility;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -53,5 +54,12 @@ public class AtomicTest {
 //        Current thread name is Thread-10
 //        Current thread name is Thread-8
 //        Count = 1000000
+    }
+
+    @Test
+    public void visibilityTest(){
+        for (int i = 0; i < 10000; i++){
+            NoVisibility.start();
+        }
     }
 }
