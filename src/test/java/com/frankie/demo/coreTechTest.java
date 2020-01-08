@@ -1,6 +1,8 @@
 package com.frankie.demo;
 
 import com.frankie.demo.core_tech.HashSelfPrivateNum;
+import com.frankie.demo.core_tech.PublicVariable;
+import com.frankie.demo.core_tech.ReentrantChildService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -28,5 +30,27 @@ public class coreTechTest {
     @Test
     public void accessInstanceVariableTest(){
         System.out.println("count = " + count);
+    }
+
+    @Test
+    public void dirtyReadTest() throws InterruptedException {
+        PublicVariable pv = new PublicVariable();
+        new Thread(() -> pv.setValue("B", "BB"), "threadA").start();
+        Thread.sleep(50);
+        pv.getValue();
+        Thread.sleep(200);
+    }
+
+    @Test
+    public void reentrantLockTest(){
+        // Step1: Call internal nested synchronized methods.
+//        new Thread(() -> new ReentrantService().method1()).start();
+//        Call method1
+//        Call method2
+//        Call method3
+
+        // Step2: Child class calls synchronized method in parent class.
+        new Thread(() -> new ReentrantChildService().reentrantChildMethod()).start();
+
     }
 }
