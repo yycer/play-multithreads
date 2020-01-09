@@ -92,4 +92,49 @@ public class coreTechTest {
 //        Start methodB at 2020-01-09T20:53:17.141
 //        End   methodB at 2020-01-09T20:53:18.141
     }
+
+    @Test
+    public void syncStaticMethodTest() throws InterruptedException {
+        new Thread(() -> SyncStaticMethod.methodA(), "threadA").start();
+        new Thread(() -> SyncStaticMethod.methodB(), "threadB").start();
+        Thread.sleep(5000);
+
+//        Start methodA at 2020-01-09T22:01:33.439
+//        End   methodA at 2020-01-09T22:01:35.440
+//        Start methodB at 2020-01-09T22:01:35.440
+//        End   methodB at 2020-01-09T22:01:36.440
+    }
+
+    @Test
+    public void diffBetweenClassAndObjectLockTest() throws InterruptedException {
+        DiffBetweenClassAndObjectLock diffLock = new DiffBetweenClassAndObjectLock();
+        new Thread(() -> DiffBetweenClassAndObjectLock.staticMethodA(), "threadA").start();
+        new Thread(() -> DiffBetweenClassAndObjectLock.staticMethodB(), "threadB").start();
+        new Thread(() -> diffLock.methodC(), "threadC").start();
+        Thread.sleep(3000);
+
+//        Start static methodA at 2020-01-09T22:10:01.347
+//        Start methodC at 2020-01-09T22:10:01.347
+//        End   methodC at 2020-01-09T22:10:01.347
+//        End   static methodA at 2020-01-09T22:10:03.347
+//        Start static methodB at 2020-01-09T22:10:03.347
+//        End   static methodB at 2020-01-09T22:10:03.347
+    }
+
+    @Test
+    public void classLockAllObjectTest() throws InterruptedException {
+        ClassLockAllObject classLock1 = new ClassLockAllObject();
+        ClassLockAllObject classLock2 = new ClassLockAllObject();
+
+        new Thread(() -> classLock1.methodA(), "threadA").start();
+        new Thread(() -> classLock2.methodB(), "threadB").start();
+
+        Thread.sleep(3100);
+
+//        Start methodA at 2020-01-09T22:16:55.844
+//        End   methodA at 2020-01-09T22:16:57.844
+//        Start methodB at 2020-01-09T22:16:57.844
+//        End   methodB at 2020-01-09T22:16:58.845
+
+    }
 }
