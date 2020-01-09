@@ -1,9 +1,6 @@
 package com.frankie.demo;
 
-import com.frankie.demo.core_tech.ExceptionReleaseLock;
-import com.frankie.demo.core_tech.HashSelfPrivateNum;
-import com.frankie.demo.core_tech.PublicVariable;
-import com.frankie.demo.core_tech.ReentrantChildService;
+import com.frankie.demo.core_tech.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -74,7 +71,25 @@ public class coreTechTest {
 //        at java.lang.Thread.run(Thread.java:748)
 //        Current thread name threadB run time 2020-01-08T21:51:10.862
 
+    }
 
+    @Test
+    public void halfAsyncHalfSyncTest(){
+        HalfAsyncHalfSync half = new HalfAsyncHalfSync();
+        new Thread(() -> half.doLongTimeTask(), "threadA").start();
+        new Thread(() -> half.doLongTimeTask(), "threadB").start();
+    }
 
+    @Test
+    public void doubleSyncBlockOneObjectTest() throws InterruptedException {
+        DoubleSyncBlockOneObject doubleSync = new DoubleSyncBlockOneObject();
+        new Thread(() -> doubleSync.methodA(), "threadA").start();
+        new Thread(() -> doubleSync.methodB(), "threadB").start();
+        Thread.sleep(5000);
+
+//        Start methodA at 2020-01-09T20:53:15.141
+//        End   methodA at 2020-01-09T20:53:17.141
+//        Start methodB at 2020-01-09T20:53:17.141
+//        End   methodB at 2020-01-09T20:53:18.141
     }
 }
