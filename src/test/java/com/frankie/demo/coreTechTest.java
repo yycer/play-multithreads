@@ -146,6 +146,49 @@ public class coreTechTest {
         new Thread(() -> deadLock.tryDeadLock("b"), "threadB").start();
 //        Thread.sleep(300);
     }
+
+    @Test
+    public void changeLockObjectTest() throws InterruptedException {
+        LockObjectChange loc = new LockObjectChange();
+        new Thread(() -> loc.justPrint(), "threadA").start();
+        Thread.sleep(50);
+        new Thread(() -> loc.justPrint(), "threadB").start();
+        Thread.sleep(4100);
+
+        /**
+         * Without lock = "456";
+         */
+//        2020-01-10T21:27:25.811 current thread = threadA
+//        2020-01-10T21:27:27.811 current thread = threadA
+//        2020-01-10T21:27:27.811 current thread = threadB
+//        2020-01-10T21:27:29.811 current thread = threadB
+
+
+        /**
+         * With lock = "456";
+         */
+//        2020-01-10T21:28:05.925 current thread = threadA
+//        2020-01-10T21:28:05.972 current thread = threadB
+//        2020-01-10T21:28:07.925 current thread = threadA
+//        2020-01-10T21:28:07.973 current thread = threadB
+    }
+
+    @Test
+    public void justChangePropertyTest() throws InterruptedException {
+        JustChangeProperty jcp = new JustChangeProperty();
+        Order order = new Order();
+        order.setAmount("20");
+        new Thread(() -> jcp.justChangeProperty(order), "threadA").start();
+        order.setAmount("50");
+        new Thread(() -> jcp.justChangeProperty(order), "threadB").start();
+        Thread.sleep(5000);
+
+
+//        2020-01-10T21:32:12.949 current thread = threadA
+//        2020-01-10T21:32:14.949 current thread = threadA
+//        2020-01-10T21:32:14.949 current thread = threadB
+//        2020-01-10T21:32:16.951 current thread = threadB
+    }
 }
 
 
