@@ -189,6 +189,32 @@ public class coreTechTest {
 //        2020-01-10T21:32:14.949 current thread = threadB
 //        2020-01-10T21:32:16.951 current thread = threadB
     }
+
+    @Test
+    public void endlessLoopTest() throws InterruptedException {
+//        EndlessLoop ell = new EndlessLoop();
+//        ell.print();
+//        ell.setContinuePrint(false);
+
+//        2020-01-10T22:15:20.257 current thread = main
+//        2020-01-10T22:15:21.257 current thread = main
+//        2020-01-10T22:15:22.258 current thread = main
+//        2020-01-10T22:15:23.258 current thread = main
+//        2020-01-10T22:15:24.258 current thread = main
+//        2020-01-10T22:15:25.258 current thread = main
+//        2020-01-10T22:15:26.259 current thread = main
+//        2020-01-10T22:15:27.259 current thread = main
+//        ...
+
+         EndlessLoop ell = new EndlessLoop();
+         new Thread(() -> ell.print()).start();
+         Thread.sleep(2100);
+         ell.setContinuePrint(false);
+
+//        2020-01-10T22:28:06.994 current thread = Thread-2
+//        2020-01-10T22:28:07.994 current thread = Thread-2
+//        2020-01-10T22:28:08.994 current thread = Thread-2
+    }
 }
 
 
