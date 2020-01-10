@@ -137,4 +137,25 @@ public class coreTechTest {
 //        End   methodB at 2020-01-09T22:16:58.845
 
     }
+
+    @Test
+    public void deadLockTest() throws InterruptedException {
+        DeadLock deadLock = new DeadLock();
+        new Thread(() -> deadLock.tryDeadLock("a"), "threadA").start();
+        Thread.sleep(10);
+        new Thread(() -> deadLock.tryDeadLock("b"), "threadB").start();
+//        Thread.sleep(300);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
