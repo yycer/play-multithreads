@@ -16,6 +16,8 @@ public class EndlessLoop {
 
     public void setContinuePrint(boolean isContinuePrint){
         this.isContinuePrint = isContinuePrint;
+        System.out.println(LocalDateTime.now() + " current thread = " + Thread.currentThread().getName() +
+                ", isContinuePrint = " + isContinuePrint);
     }
 
     public void print(){

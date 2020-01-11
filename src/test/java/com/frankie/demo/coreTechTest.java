@@ -206,14 +206,19 @@ public class coreTechTest {
 //        2020-01-10T22:15:27.259 current thread = main
 //        ...
 
-         EndlessLoop ell = new EndlessLoop();
-         new Thread(() -> ell.print()).start();
-         Thread.sleep(2100);
-         ell.setContinuePrint(false);
+//         EndlessLoop ell = new EndlessLoop();
+//         new Thread(() -> ell.print()).start();
+//         Thread.sleep(2100);
+//         ell.setContinuePrint(false);
 
 //        2020-01-10T22:28:06.994 current thread = Thread-2
 //        2020-01-10T22:28:07.994 current thread = Thread-2
 //        2020-01-10T22:28:08.994 current thread = Thread-2
+
+        EndlessLoop ell = new EndlessLoop();
+        new Thread(() -> ell.print(), "threadA").start();
+        Thread.sleep(2100);
+        new Thread(() -> ell.setContinuePrint(false), "threadB").start();
     }
 }
 
