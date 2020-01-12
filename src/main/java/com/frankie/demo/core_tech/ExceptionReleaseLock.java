@@ -9,15 +9,13 @@ import java.time.LocalDateTime;
 public class ExceptionReleaseLock {
     synchronized public void releaseALock(){
         if ("threadA".equals(Thread.currentThread().getName())){
-            int i = 1;
-            while (i < 1000){
-                if (i == 999){
+            for (int i = 0; i < 1000000; i++){
+                if (i == 999999){
                     System.out.println(
                             "Current thread name " + Thread.currentThread().getName() +
-                                    " run time " + LocalDateTime.now());
+                             " run time " + LocalDateTime.now());
                     Integer.parseInt("a");
                 }
-                i++;
             }
         } else {
             System.out.println(

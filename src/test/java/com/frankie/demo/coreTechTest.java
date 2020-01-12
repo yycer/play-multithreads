@@ -4,6 +4,8 @@ import com.frankie.demo.core_tech.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.LocalDateTime;
+
 /**
  * @author: Yao Frankie
  * @date: 2020/1/8 20:28
@@ -61,37 +63,32 @@ public class coreTechTest {
     }
 
     @Test
-    public void reentrantLockTest(){
+    public void reentrantLockTest() throws InterruptedException {
         // Step1: Call internal nested synchronized methods.
 //        new Thread(() -> new ReentrantService().method1()).start();
-//        Call method1
-//        Call method2
-//        Call method3
+//        Thread.sleep(6100);
 
         // Step2: Child class calls synchronized method in parent class.
         new Thread(() -> new ReentrantChildService().reentrantChildMethod()).start();
-
+        Thread.sleep(3100);
     }
 
     @Test
     public void exceptionReleaseLockTest() throws InterruptedException {
+        System.out.println(LocalDateTime.now() + " exceptionReleaseLockTest() start.");
         ExceptionReleaseLock exceptionLock = new ExceptionReleaseLock();
-//        System.out.println(LocalDateTime.now());
         new Thread(() -> exceptionLock.releaseALock(), "threadA").start();
-        Thread.sleep(50);
+        Thread.sleep(10);
         new Thread(() -> exceptionLock.releaseALock(), "threadB").start();
         Thread.sleep(100);
+    }
 
-//        Current thread name threadA run time 2020-01-08T21:51:10.815
-//        Exception in thread "threadA" java.lang.NumberFormatException: For input string: "a"
-//        at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
-//        at java.lang.Integer.parseInt(Integer.java:580)
-//        at java.lang.Integer.parseInt(Integer.java:615)
-//        at com.frankie.demo.core_tech.ExceptionReleaseLock.releaseALock(ExceptionReleaseLock.java:18)
-//        at com.frankie.demo.coreTechTest.lambda$exceptionReleaseLockTest$4(coreTechTest.java:61)
-//        at java.lang.Thread.run(Thread.java:748)
-//        Current thread name threadB run time 2020-01-08T21:51:10.862
-
+    @Test
+    public void syncMethodDoesNotHaveInheritTest() throws InterruptedException {
+        ReentrantChildService child = new ReentrantChildService();
+        new Thread(() -> child.childMethod(), "threadA").start();
+        new Thread(() -> child.childMethod(), "threadB").start();
+        Thread.sleep(7100);
     }
 
     @Test
