@@ -15,6 +15,7 @@ public class coreTechTest {
 
     private int count = 1;
 
+    // region Sync method test.
     @Test
     public void methodPrivateNumTest() throws InterruptedException {
         HashSelfPrivateNum numRef = new HashSelfPrivateNum();
@@ -91,6 +92,61 @@ public class coreTechTest {
         Thread.sleep(7100);
     }
 
+    // endregion
+
+    @Test
+    public void syncMethodDisadvantageTest() throws InterruptedException {
+        SyncMethodDisadvantage disadvantage = new SyncMethodDisadvantage();
+        new Thread(() -> disadvantage.syncMethod(), "threadA").start();
+        new Thread(() -> disadvantage.syncMethod(), "threadB").start();
+        Thread.sleep(4100);
+    }
+
+    @Test
+    public void syncBlockTest() throws InterruptedException {
+        SyncMethodDisadvantage disadvantage = new SyncMethodDisadvantage();
+        new Thread(() -> disadvantage.syncBlock(), "threadA").start();
+        new Thread(() -> disadvantage.syncBlock(), "threadB").start();
+        Thread.sleep(4100);
+    }
+
+    @Test
+    public void syncBlockSynchronicityTest() throws InterruptedException {
+        SyncBlockSynchronicity synchronicity = new SyncBlockSynchronicity();
+        new Thread(() -> synchronicity.syncBlock1(), "threadA").start();
+        new Thread(() -> synchronicity.syncBlock2(), "threadB").start();
+        Thread.sleep(3100);
+    }
+
+    @Test
+    public void syncSyncMethodTest() throws InterruptedException {
+
+        // Step1: sync method.
+        DiffBetweenClassAndObjectLock classLock1 = new DiffBetweenClassAndObjectLock();
+        DiffBetweenClassAndObjectLock classLock2 = new DiffBetweenClassAndObjectLock();
+        new Thread(() -> classLock1.method1(), "threadA").start();
+        new Thread(() -> classLock2.method2(), "threadB").start();
+        Thread.sleep(3100);
+
+
+        // Step2: sync static method.
+        DiffBetweenClassAndObjectLock classLock3 = new DiffBetweenClassAndObjectLock();
+        DiffBetweenClassAndObjectLock classLock4 = new DiffBetweenClassAndObjectLock();
+        new Thread(() -> classLock3.staticMethod1(), "threadA").start();
+        new Thread(() -> classLock4.staticMethod2(), "threadB").start();
+        Thread.sleep(3100);
+
+        // Step3: sync static block.
+        DiffBetweenClassAndObjectLock classLock5 = new DiffBetweenClassAndObjectLock();
+        DiffBetweenClassAndObjectLock classLock6 = new DiffBetweenClassAndObjectLock();
+        new Thread(() -> classLock5.staticBlockMethod1(), "threadA").start();
+        new Thread(() -> classLock6.staticBlockMethod2(), "threadB").start();
+        Thread.sleep(3100);
+
+    }
+
+
+
     @Test
     public void halfAsyncHalfSyncTest(){
         HalfAsyncHalfSync half = new HalfAsyncHalfSync();
@@ -123,21 +179,6 @@ public class coreTechTest {
 //        End   methodB at 2020-01-09T22:01:36.440
     }
 
-    @Test
-    public void diffBetweenClassAndObjectLockTest() throws InterruptedException {
-        DiffBetweenClassAndObjectLock diffLock = new DiffBetweenClassAndObjectLock();
-        new Thread(() -> DiffBetweenClassAndObjectLock.staticMethodA(), "threadA").start();
-        new Thread(() -> DiffBetweenClassAndObjectLock.staticMethodB(), "threadB").start();
-        new Thread(() -> diffLock.methodC(), "threadC").start();
-        Thread.sleep(3000);
-
-//        Start static methodA at 2020-01-09T22:10:01.347
-//        Start methodC at 2020-01-09T22:10:01.347
-//        End   methodC at 2020-01-09T22:10:01.347
-//        End   static methodA at 2020-01-09T22:10:03.347
-//        Start static methodB at 2020-01-09T22:10:03.347
-//        End   static methodB at 2020-01-09T22:10:03.347
-    }
 
     @Test
     public void classLockAllObjectTest() throws InterruptedException {
