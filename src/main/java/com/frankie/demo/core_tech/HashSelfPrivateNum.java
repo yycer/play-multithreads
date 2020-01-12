@@ -9,7 +9,7 @@ public class HashSelfPrivateNum {
 //    public volatile int num = 0;
     private int num = 0;
 
-    public synchronized void addNum(String username) {
+    public void addNum(String username) {
 //        int num = 0;
 //        synchronized (this){
             if ("a".equals(username)){

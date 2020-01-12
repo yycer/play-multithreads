@@ -26,6 +26,27 @@ public class coreTechTest {
     }
 
     @Test
+    public void multiObjectMultiLockTest() throws InterruptedException {
+
+//        new Thread(() -> new MultiObjectMultiLock().methodA(), "threadA").start();
+//        new Thread(() -> new MultiObjectMultiLock().methodB(), "threadB").start();
+//        Thread.sleep(3200);
+
+        MultiObjectMultiLock lock = new MultiObjectMultiLock();
+        new Thread(() -> lock.methodA(), "threadA").start();
+        new Thread(() -> lock.methodB(), "threadB").start();
+        Thread.sleep(3200);
+    }
+
+    @Test
+    public void syncMethodHalfSyncHalfAsyncTest() throws InterruptedException {
+        HalfAsyncHalfSync half = new HalfAsyncHalfSync();
+        new Thread(() -> half.syncMethodA(), "threadA").start();
+        new Thread(() -> half.methodB(), "threadB").start();
+        Thread.sleep(3200);
+    }
+
+    @Test
     public void accessInstanceVariableTest(){
         System.out.println("count = " + count);
     }
