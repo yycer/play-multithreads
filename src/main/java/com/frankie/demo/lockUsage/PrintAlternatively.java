@@ -1,6 +1,9 @@
 package com.frankie.demo.lockUsage;
 
 import java.time.LocalDateTime;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author: Yao Frankie
@@ -8,15 +11,17 @@ import java.time.LocalDateTime;
  */
 public class PrintAlternatively {
 
-    Object o = new Object();
+    private Object object       = new Object();
+    private Lock reentrantLock  = new ReentrantLock();
+    private Condition condition = reentrantLock.newCondition();
 
     public void printOddNumberUsingWaitAndNotify(){
-        synchronized (o){
+        synchronized (object){
             for(int i = 1; i < 10; i += 2){
-                o.notifyAll();
+                object.notify();
                 System.out.println(LocalDateTime.now() + " i = " + i + " in " + Thread.currentThread().getName());
                 try {
-                    o.wait();
+                    object.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -25,16 +30,65 @@ public class PrintAlternatively {
     }
 
     public void printEvenNumberUsingWaitAndNotify(){
-        synchronized (o){
+        synchronized (object){
             for(int i = 2; i <= 10; i += 2){
-                o.notifyAll();
+                object.notify();
                 System.out.println(LocalDateTime.now() + " i = " + i + " in " + Thread.currentThread().getName());
                 try {
-                    o.wait();
+                    object.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }
     }
+
+    public void printOddNumberUsingCondition(){
+        reentrantLock.lock();
+        for(int i = 1; i < 10; i += 2){
+            condition.signal();
+            System.out.println(LocalDateTime.now() + " i = " + i + " in " + Thread.currentThread().getName());
+            try {
+                condition.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        reentrantLock.unlock();
+    }
+
+    public void printEvenNumberUsingCondition(){
+        reentrantLock.lock();
+        for(int i = 2; i <= 10; i += 2){
+            condition.signal();
+            System.out.println(LocalDateTime.now() + " i = " + i + " in " + Thread.currentThread().getName());
+            try {
+                condition.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        reentrantLock.unlock();
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -90,16 +90,12 @@ public class LockTest {
         new Thread(() -> printAlternatively.printEvenNumberUsingWaitAndNotify(), "threadB").start();
 
         Thread.sleep(100);
+    }
 
-//        2020-01-13T13:27:55.954 i = 1 in threadA
-//        2020-01-13T13:27:55.954 i = 2 in threadB
-//        2020-01-13T13:27:55.954 i = 3 in threadA
-//        2020-01-13T13:27:55.954 i = 4 in threadB
-//        2020-01-13T13:27:55.955 i = 5 in threadA
-//        2020-01-13T13:27:55.955 i = 6 in threadB
-//        2020-01-13T13:27:55.955 i = 7 in threadA
-//        2020-01-13T13:27:55.955 i = 8 in threadB
-//        2020-01-13T13:27:55.955 i = 9 in threadA
-//        2020-01-13T13:27:55.955 i = 10 in threadB
+    @Test
+    public void printAlternativelyUsingAwaitAndSignalTest(){
+        PrintAlternatively printAlternatively = new PrintAlternatively();
+        new Thread(() -> printAlternatively.printOddNumberUsingCondition(),  "threadA").start();
+        new Thread(() -> printAlternatively.printEvenNumberUsingCondition(), "threadB").start();
     }
 }
