@@ -98,4 +98,59 @@ public class LockTest {
         new Thread(() -> printAlternatively.printOddNumberUsingCondition(),  "threadA").start();
         new Thread(() -> printAlternatively.printEvenNumberUsingCondition(), "threadB").start();
     }
+
+    @Test
+    public void fairnessLockTest() throws InterruptedException {
+        /**
+         * Fairness lock.
+         */
+        FairnessLock fairnessLock1 = new FairnessLock();
+        fairnessLock1.setFairness(true);
+        Thread threadA = new Thread(() -> fairnessLock1.run(), "threadA");
+        Thread threadB = new Thread(() -> fairnessLock1.run(), "threadB");
+        Thread threadC = new Thread(() -> fairnessLock1.run(), "threadC");
+
+        threadA.start();
+        threadB.start();
+        threadC.start();
+
+        threadA.join();
+        threadB.join();
+        threadC.join();
+
+
+        /**
+         * Unfairness lock.
+         */
+//        FairnessLock fairnessLock2 = new FairnessLock();
+//        fairnessLock2.setFairness(false);
+//        Thread threadA = new Thread(() -> fairnessLock2.run(), "threadA");
+//        Thread threadB = new Thread(() -> fairnessLock2.run(), "threadB");
+//        Thread threadC = new Thread(() -> fairnessLock2.run(), "threadC");
+//
+//        threadA.start();
+//        threadB.start();
+//        threadC.start();
+//
+//        threadA.join();
+//        threadB.join();
+//        threadC.join();
+    }
+
+    @Test
+    public void remainderTest(){
+        double random = Math.random();
+
+        for(int i = 0; i < 20; i++){
+            int j = (int) Math.random() * 1000;
+            System.out.println(j);
+        }
+    }
+
 }
+
+
+
+
+
+
