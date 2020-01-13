@@ -1,9 +1,6 @@
 package com.frankie.demo;
 
-import com.frankie.demo.lockUsage.ReentrantBeginning;
-import com.frankie.demo.lockUsage.ReentrantSyncExec;
-import com.frankie.demo.lockUsage.ReentrantUsage;
-import com.frankie.demo.lockUsage.TwoCondition;
+import com.frankie.demo.lockUsage.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -84,5 +81,25 @@ public class LockTest {
 //        2020-01-13T13:13:01.132 signalA() start in main
 //        2020-01-13T13:13:01.132 signalA() end   in main
 //        2020-01-13T13:13:01.132 awaitA()  end   in threadA
+    }
+
+    @Test
+    public void printAlternativelyUsingWaitAndNotifyTest() throws InterruptedException {
+        PrintAlternatively printAlternatively = new PrintAlternatively();
+        new Thread(() -> printAlternatively.printOddNumberUsingWaitAndNotify(),  "threadA").start();
+        new Thread(() -> printAlternatively.printEvenNumberUsingWaitAndNotify(), "threadB").start();
+
+        Thread.sleep(100);
+
+//        2020-01-13T13:27:55.954 i = 1 in threadA
+//        2020-01-13T13:27:55.954 i = 2 in threadB
+//        2020-01-13T13:27:55.954 i = 3 in threadA
+//        2020-01-13T13:27:55.954 i = 4 in threadB
+//        2020-01-13T13:27:55.955 i = 5 in threadA
+//        2020-01-13T13:27:55.955 i = 6 in threadB
+//        2020-01-13T13:27:55.955 i = 7 in threadA
+//        2020-01-13T13:27:55.955 i = 8 in threadB
+//        2020-01-13T13:27:55.955 i = 9 in threadA
+//        2020-01-13T13:27:55.955 i = 10 in threadB
     }
 }
