@@ -3,10 +3,9 @@ package com.frankie.demo;
 import com.frankie.demo.lockUsage.ReentrantBeginning;
 import com.frankie.demo.lockUsage.ReentrantSyncExec;
 import com.frankie.demo.lockUsage.ReentrantUsage;
+import com.frankie.demo.lockUsage.TwoCondition;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.concurrent.locks.Condition;
 
 /**
  * @author: Yao Frankie
@@ -70,5 +69,20 @@ public class LockTest {
 //        2020-01-13T11:43:09.642 awaitA() method end.  in threadA
 //        2020-01-13T11:43:09.642 awaitB() method end.  in threadB
 
+    }
+
+    @Test
+    public void twoConditionTest() throws InterruptedException {
+        TwoCondition twoCondition = new TwoCondition();
+        new Thread(() -> twoCondition.awaitA(), "threadA").start();
+        new Thread(() -> twoCondition.awaitB(), "threadB").start();
+        Thread.sleep(2000);
+        twoCondition.signalA();
+
+//        2020-01-13T13:12:59.136 awaitA()  start in threadA
+//        2020-01-13T13:12:59.136 awaitB()  start in threadB
+//        2020-01-13T13:13:01.132 signalA() start in main
+//        2020-01-13T13:13:01.132 signalA() end   in main
+//        2020-01-13T13:13:01.132 awaitA()  end   in threadA
     }
 }
