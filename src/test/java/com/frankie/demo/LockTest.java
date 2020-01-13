@@ -104,29 +104,11 @@ public class LockTest {
         /**
          * Fairness lock.
          */
-        FairnessLock fairnessLock1 = new FairnessLock();
-        fairnessLock1.setFairness(true);
-        Thread threadA = new Thread(() -> fairnessLock1.run(), "threadA");
-        Thread threadB = new Thread(() -> fairnessLock1.run(), "threadB");
-        Thread threadC = new Thread(() -> fairnessLock1.run(), "threadC");
-
-        threadA.start();
-        threadB.start();
-        threadC.start();
-
-        threadA.join();
-        threadB.join();
-        threadC.join();
-
-
-        /**
-         * Unfairness lock.
-         */
-//        FairnessLock fairnessLock2 = new FairnessLock();
-//        fairnessLock2.setFairness(false);
-//        Thread threadA = new Thread(() -> fairnessLock2.run(), "threadA");
-//        Thread threadB = new Thread(() -> fairnessLock2.run(), "threadB");
-//        Thread threadC = new Thread(() -> fairnessLock2.run(), "threadC");
+//        FairnessLock fairnessLock1 = new FairnessLock();
+//        fairnessLock1.setFairness(true);
+//        Thread threadA = new Thread(() -> fairnessLock1.run(), "threadA");
+//        Thread threadB = new Thread(() -> fairnessLock1.run(), "threadB");
+//        Thread threadC = new Thread(() -> fairnessLock1.run(), "threadC");
 //
 //        threadA.start();
 //        threadB.start();
@@ -135,6 +117,24 @@ public class LockTest {
 //        threadA.join();
 //        threadB.join();
 //        threadC.join();
+
+
+        /**
+         * Unfairness lock.
+         */
+        FairnessLock fairnessLock2 = new FairnessLock();
+        fairnessLock2.setFairness(false);
+        Thread threadA = new Thread(() -> fairnessLock2.run(), "threadA");
+        Thread threadB = new Thread(() -> fairnessLock2.run(), "threadB");
+        Thread threadC = new Thread(() -> fairnessLock2.run(), "threadC");
+
+        threadA.start();
+        threadB.start();
+        threadC.start();
+
+        threadA.join();
+        threadB.join();
+        threadC.join();
     }
 
     @Test
