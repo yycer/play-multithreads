@@ -147,6 +147,15 @@ public class LockTest {
         }
     }
 
+    @Test
+    public void lockTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        Thread thread = new Thread(() -> playLock.doLock());
+        thread.start();
+//        Thread.sleep(10);
+        thread.interrupt();
+    }
+
 }
 
 
