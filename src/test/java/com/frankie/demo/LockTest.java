@@ -195,6 +195,57 @@ public class LockTest {
         System.out.println("getQueueLength = " + playLock.lock.getQueueLength());
         Thread.sleep(2000);
     }
+
+    @Test
+    public void getWaitingQueueLengthTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadA").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadB").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadC").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadD").start();
+        Thread.sleep(100);
+        playLock.printWaitQueueLength();
+    }
+
+    @Test
+    public void hasQueuedThreadTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        Thread threadA = new Thread(() -> playLock.doHasQueuedThread(), "threadA");
+        threadA.start();
+        Thread.sleep(10);
+        Thread threadB = new Thread(() -> playLock.doHasQueuedThread(), "threadB");
+        threadB.start();
+        Thread.sleep(10);
+        System.out.println("threadA is waiting to acquire lock? " + playLock.lock.hasQueuedThread(threadA));
+        System.out.println("threadB is waiting to acquire lock? " + playLock.lock.hasQueuedThread(threadB));
+        System.out.println("Has any threads waiting to acquire lock? " + playLock.lock.hasQueuedThreads());
+    }
+
+    @Test
+    public void hasWaitersTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadA").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadB").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadC").start();
+        new Thread(() -> playLock.doGetWaitQueueLength(), "threadD").start();
+        Thread.sleep(100);
+        playLock.doHasWaiters();
+    }
+
+    @Test
+    public void isFairTest(){
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doIsFair(), "threadA").start();
+    }
+
+    @Test
+    public void isHeldByCurrentThreadTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doIsHeldByCurrentThread(), "threadA").start();
+        Thread.sleep(10);
+        System.out.println("lock is held by main thread? "+ playLock.lock.isHeldByCurrentThread());
+        Thread.sleep(10);
+    }
 }
 
 

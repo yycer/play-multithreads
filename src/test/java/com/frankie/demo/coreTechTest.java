@@ -50,6 +50,14 @@ public class coreTechTest {
     }
 
     @Test
+    public void callSyncMethodAByTwoThreadTest() throws InterruptedException {
+        HalfAsyncHalfSync half = new HalfAsyncHalfSync();
+        new Thread(() -> half.syncMethodA(), "threadA").start();
+        new Thread(() -> half.syncMethodA(), "threadB").start();
+        Thread.sleep(4200);
+    }
+
+    @Test
     public void accessInstanceVariableTest(){
         System.out.println("count = " + count);
     }

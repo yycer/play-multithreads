@@ -89,7 +89,71 @@ public class PlayLock {
         }
     }
 
-    public void doGetWaitingQueueLength(){
+    public void doGetWaitQueueLength(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() + " enter doGetWaitQueueLength()");
+            System.out.println(Thread.currentThread().getName() + " hold count = " + lock.getHoldCount());
+            condition1.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void printWaitQueueLength(){
+        try {
+            lock.lock();
+            System.out.println("Wait queue length is " + lock.getWaitQueueLength(condition1));
+            condition1.signalAll();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doHasQueuedThread(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() + " enter doHasQueuedThread()");
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doHasWaiters(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() +
+                    " hasWaiter() = " + lock.hasWaiters(condition1));
+            System.out.println(Thread.currentThread().getName() +
+                    " getWaitQueueLength() = " + lock.getWaitQueueLength(condition1));
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doIsFair(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() +
+                    " isFair = " + lock.isFair());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doIsHeldByCurrentThread(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() +
+                    " isHeldByCurrentThread = " + lock.isHeldByCurrentThread());
+        } finally {
+            lock.unlock();
+        }
 
     }
 }
