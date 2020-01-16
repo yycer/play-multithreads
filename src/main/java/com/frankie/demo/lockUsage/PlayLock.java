@@ -16,10 +16,7 @@ public class PlayLock {
         try {
             lock.lock();
             System.out.println(LocalDateTime.now() + " doLock() start");
-            String result = "";
-            for(int i = 0; i < Integer.MAX_VALUE; i++){
-                result += String.valueOf(i);
-            }
+            doLongTimeJob();
             System.out.println(LocalDateTime.now() + " doLock() end  ");
         } finally {
             lock.unlock();
@@ -30,11 +27,32 @@ public class PlayLock {
     public void doLockInterruptibly(){
         try {
             lock.lockInterruptibly();
-            Thread.sleep(5000);
+            System.out.println(LocalDateTime.now() + " doLockInterruptibly() start");
+            doLongTimeJob();
+            System.out.println(LocalDateTime.now() + " doLockInterruptibly() end  ");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             lock.unlock();
+        }
+    }
+
+    public void doLongTimeJob(){
+        long start = System.currentTimeMillis();
+        for(int i = 0; i < 100000; i++){
+            for(int j = 0; j < 100000; j++){
+                Object o = new Object();
+            }
+        }
+        long end = System.currentTimeMillis();
+        System.out.println("Cost " + (end - start));
+    }
+
+    public void doTryLock(){
+        if (lock.tryLock()){
+            System.out.println(Thread.currentThread().getName() + " get lock.");
+        } else {
+            System.out.println(Thread.currentThread().getName() + " does not get lock.");
         }
     }
 }

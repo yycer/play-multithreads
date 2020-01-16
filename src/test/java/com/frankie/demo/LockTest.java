@@ -151,11 +151,33 @@ public class LockTest {
     public void lockTest() throws InterruptedException {
         PlayLock playLock = new PlayLock();
         Thread thread = new Thread(() -> playLock.doLock());
+//        Thread thread = new Thread(() -> playLock.doLockInterruptibly(), "threadA");
         thread.start();
 //        Thread.sleep(10);
         thread.interrupt();
+        Thread.sleep(4000);
     }
 
+    @Test
+    public void executeTimeTest(){
+
+        long start = System.currentTimeMillis();
+        for(int i = 0; i < 100000; i++){
+            for(int j = 0; j < 100000; j++){
+                Object o = new Object();
+            }
+        }
+        long end = System.currentTimeMillis();
+        long gap = end - start;
+        System.out.println(gap); // 3406
+    }
+
+    @Test
+    public void tryLockTest(){
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doTryLock(), "threadA").start();
+        new Thread(() -> playLock.doTryLock(), "threadB").start();
+    }
 }
 
 
