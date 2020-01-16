@@ -1,7 +1,7 @@
 package com.frankie.demo.lockUsage;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
@@ -10,7 +10,9 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class PlayLock {
 
-    private Lock lock = new ReentrantLock();
+    public ReentrantLock lock = new ReentrantLock();
+
+    public Condition condition1 = lock.newCondition();
 
     public void doLock(){
         try {
@@ -55,4 +57,51 @@ public class PlayLock {
             System.out.println(Thread.currentThread().getName() + " does not get lock.");
         }
     }
+
+    public void holdLockMethod1(){
+        try {
+            lock.lock();
+            System.out.println("Enter holdLockMethod1(), lock count = " + lock.getHoldCount());
+            holdLockMethod2();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private void holdLockMethod2() {
+        try {
+            lock.lock();
+            System.out.println("Enter holdLockMethod2(), lock count = " + lock.getHoldCount());
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doGetQueueLength(){
+        try {
+            lock.lock();
+            System.out.println(Thread.currentThread().getName() + " enter doGetQueueLength()");
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doGetWaitingQueueLength(){
+
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+

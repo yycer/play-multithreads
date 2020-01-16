@@ -178,6 +178,23 @@ public class LockTest {
         new Thread(() -> playLock.doTryLock(), "threadA").start();
         new Thread(() -> playLock.doTryLock(), "threadB").start();
     }
+
+    @Test
+    public void getHoldCountTest(){
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.holdLockMethod1()).start();
+    }
+
+    @Test
+    public void getQueueLengthTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doGetQueueLength(), "threadA").start();
+        Thread.sleep(20);
+        new Thread(() -> playLock.doGetQueueLength(), "threadB").start();
+        new Thread(() -> playLock.doGetQueueLength(), "threadC").start();
+        System.out.println("getQueueLength = " + playLock.lock.getQueueLength());
+        Thread.sleep(2000);
+    }
 }
 
 
