@@ -83,21 +83,6 @@ public class LockTest {
 //        2020-01-13T13:13:01.132 awaitA()  end   in threadA
     }
 
-    @Test
-    public void printAlternativelyUsingWaitAndNotifyTest() throws InterruptedException {
-        PrintAlternatively printAlternatively = new PrintAlternatively();
-        new Thread(() -> printAlternatively.printOddNumberUsingWaitAndNotify(),  "threadA").start();
-        new Thread(() -> printAlternatively.printEvenNumberUsingWaitAndNotify(), "threadB").start();
-
-        Thread.sleep(100);
-    }
-
-    @Test
-    public void printAlternativelyUsingAwaitAndSignalTest(){
-        PrintAlternatively printAlternatively = new PrintAlternatively();
-        new Thread(() -> printAlternatively.printOddNumberUsingCondition(),  "threadA").start();
-        new Thread(() -> printAlternatively.printEvenNumberUsingCondition(), "threadB").start();
-    }
 
     @Test
     public void fairnessLockTest() throws InterruptedException {
@@ -268,6 +253,38 @@ public class LockTest {
         new Thread(() -> playLock.lockMethod1(), "threadA").start();
         new Thread(() -> playLock.lockMethod1(), "threadB").start();
         Thread.sleep(3100);
+    }
+
+    /**
+     * 交替打印。
+     * 1. wait() & notify()
+     * 2. await() & signal()
+     */
+    @Test
+    public void printAlternativelyUsingWaitAndNotifyTest() {
+        PrintAlternatively printAlternatively = new PrintAlternatively();
+        new Thread(() -> printAlternatively.printOddNumberUsingWaitAndNotify(),  "threadA").start();
+        new Thread(() -> printAlternatively.printEvenNumberUsingWaitAndNotify(), "threadB").start();
+    }
+
+    @Test
+    public void printAlternativelyUsingAwaitAndSignalTest(){
+        PrintAlternatively printAlternatively = new PrintAlternatively();
+        new Thread(() -> printAlternatively.printOddNumberUsingCondition(),  "threadA").start();
+        new Thread(() -> printAlternatively.printEvenNumberUsingCondition(), "threadB").start();
+    }
+
+    /**
+     * 通知部分线程测试
+     */
+    @Test
+    public void signalPartConditionTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.awaitCondition1(), "threadA").start();
+        new Thread(() -> playLock.awaitCondition2(), "threadB").start();
+        Thread.sleep(10);
+        playLock.signalCondition1();
+        Thread.sleep(2100);
     }
 }
 

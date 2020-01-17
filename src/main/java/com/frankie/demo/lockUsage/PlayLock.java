@@ -13,6 +13,7 @@ public class PlayLock {
     public ReentrantLock lock = new ReentrantLock();
 
     public Condition condition1 = lock.newCondition();
+    public Condition condition2 = lock.newCondition();
 
     public void doLock(){
         try {
@@ -190,6 +191,55 @@ public class PlayLock {
             lock.unlock();
         }
     }
+
+    /**
+     * 通知部分线程。
+     */
+    public void awaitCondition1(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter awaitCondition1()");
+            Thread.sleep(1000);
+            condition1.await();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  awaitCondition1()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void awaitCondition2(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter awaitCondition2()");
+            Thread.sleep(1000);
+            condition2.await();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  awaitCondition2()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void signalCondition1(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter signalCondition1()");
+            condition1.signal();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  signalCondition1()");
+        } finally {
+            lock.unlock();
+        }
+    }
+
 }
 
 
