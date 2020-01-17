@@ -246,7 +246,36 @@ public class LockTest {
         System.out.println("lock is held by main thread? "+ playLock.lock.isHeldByCurrentThread());
         Thread.sleep(10);
     }
+
+
+    /**
+     * Lock的使用测试
+     */
+    @Test
+    public void reentrantLockExecSeqTest() throws InterruptedException {
+        /**
+         * Two threads & two methods.
+         */
+//        PlayLock playLock = new PlayLock();
+//        new Thread(() -> playLock.lockMethod1(), "threadA").start();
+//        new Thread(() -> playLock.lockMethod2(), "threadB").start();
+//        Thread.sleep(3100);
+
+        /**
+         * Two threads & one methods.
+         */
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.lockMethod1(), "threadA").start();
+        new Thread(() -> playLock.lockMethod1(), "threadB").start();
+        Thread.sleep(3100);
+    }
 }
+
+
+
+
+
+
 
 
 

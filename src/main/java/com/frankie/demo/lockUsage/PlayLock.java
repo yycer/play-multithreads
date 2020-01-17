@@ -156,6 +156,40 @@ public class PlayLock {
         }
 
     }
+
+
+    /**
+     * Lock的使用
+     */
+    public void lockMethod1(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter lockMethod1()");
+            Thread.sleep(1000);
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter lockMethod1()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void lockMethod2(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter lockMethod2()");
+            Thread.sleep(2000);
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter lockMethod2()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
 }
 
 
