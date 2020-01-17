@@ -51,13 +51,6 @@ public class PlayLock {
         System.out.println("Cost " + (end - start));
     }
 
-    public void doTryLock(){
-        if (lock.tryLock()){
-            System.out.println(Thread.currentThread().getName() + " get lock.");
-        } else {
-            System.out.println(Thread.currentThread().getName() + " does not get lock.");
-        }
-    }
 
     public void holdLockMethod1(){
         try {
@@ -240,6 +233,59 @@ public class PlayLock {
         }
     }
 
+    /**
+     * tryLock()
+     */
+    public void doTryLockMethod1(){
+        try {
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] tryLock() = " + lock.tryLock());
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter doTryLockMethod1()");
+            Thread.sleep(10000);
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  doTryLockMethod1()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doTryLockMethod2(){
+        try {
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] tryLock() = " + lock.tryLock());
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter doTryLockMethod2()");
+            Thread.sleep(1000);
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  doTryLockMethod2()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void doIsLock(){
+        try {
+            lock.lock();
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] enter doIsLock()");
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] isLocked() = " + lock.isLocked());
+            Thread.sleep(1000);
+            System.out.println(LocalDateTime.now() + " ["  + Thread.currentThread().getName() +
+                    "] exit  doIsLock()");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
 }
 
 

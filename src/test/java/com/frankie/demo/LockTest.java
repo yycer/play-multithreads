@@ -157,12 +157,6 @@ public class LockTest {
         System.out.println(gap); // 3406
     }
 
-    @Test
-    public void tryLockTest(){
-        PlayLock playLock = new PlayLock();
-        new Thread(() -> playLock.doTryLock(), "threadA").start();
-        new Thread(() -> playLock.doTryLock(), "threadB").start();
-    }
 
     @Test
     public void getHoldCountTest(){
@@ -286,6 +280,38 @@ public class LockTest {
         playLock.signalCondition1();
         Thread.sleep(2100);
     }
+
+    /**
+     * ReentrantLock常用方法整理
+     */
+
+    /**
+     * 1. Lock
+     */
+    @Test
+    public void tryLockTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doTryLockMethod1(), "threadA").start();
+        Thread.sleep(10);
+        new Thread(() -> playLock.doTryLockMethod2(), "threadB").start();
+        Thread.sleep(1000);
+
+//        2020-01-17T20:41:39.257 [threadA] tryLock() = true
+//        2020-01-17T20:41:39.257 [threadA] enter doTryLockMethod1()
+//        2020-01-17T20:41:39.264 [threadB] tryLock() = false
+    }
+
+    @Test
+    public void isLockedTest() throws InterruptedException {
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.doIsLock(), "threadA").start();
+        Thread.sleep(1100);
+
+//        2020-01-17T20:53:41.233 [threadA] enter doIsLock()
+//        2020-01-17T20:53:41.233 [threadA] isLocked() = true
+//        2020-01-17T20:53:42.233 [threadA] exit  doIsLock()
+    }
+
 }
 
 
