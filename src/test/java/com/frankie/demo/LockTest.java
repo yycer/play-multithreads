@@ -158,11 +158,6 @@ public class LockTest {
     }
 
 
-    @Test
-    public void getHoldCountTest(){
-        PlayLock playLock = new PlayLock();
-        new Thread(() -> playLock.holdLockMethod1()).start();
-    }
 
     @Test
     public void getQueueLengthTest() throws InterruptedException {
@@ -310,6 +305,18 @@ public class LockTest {
 //        2020-01-17T20:53:41.233 [threadA] enter doIsLock()
 //        2020-01-17T20:53:41.233 [threadA] isLocked() = true
 //        2020-01-17T20:53:42.233 [threadA] exit  doIsLock()
+    }
+
+    /**
+     * Monitor
+     */
+    @Test
+    public void getHoldCountTest(){
+        PlayLock playLock = new PlayLock();
+        new Thread(() -> playLock.holdLockMethod1()).start();
+
+//        Enter holdLockMethod1(), lock count = 1
+//        Enter holdLockMethod2(), lock count = 2
     }
 
 }
