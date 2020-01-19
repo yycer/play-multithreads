@@ -71,6 +71,9 @@ public class PlayLock {
         }
     }
 
+    /**
+     * getQueueLength
+     */
     public void doGetQueueLength(){
         try {
             lock.lock();
@@ -87,7 +90,6 @@ public class PlayLock {
         try {
             lock.lock();
             System.out.println(Thread.currentThread().getName() + " enter doGetWaitQueueLength()");
-            System.out.println(Thread.currentThread().getName() + " hold count = " + lock.getHoldCount());
             condition1.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -106,6 +108,10 @@ public class PlayLock {
         }
     }
 
+    /**
+     * hasQueuedThread()
+     * hasQueuedThreads()
+     */
     public void doHasQueuedThread(){
         try {
             lock.lock();
