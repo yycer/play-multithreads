@@ -47,4 +47,20 @@ class DemoApplicationTests {
                 break;
         }
     }
+
+    @Test
+    public void print512FiledAndValueTest(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("hmset test_hash_max_ziplist_entries ");
+        for (int i = 501; i <= 512; i++){
+            sb.append("f");
+            sb.append(i);
+            sb.append(" v");
+            sb.append(i);
+            sb.append(" ");
+        }
+
+        String result = new String(sb);
+        System.out.println(result);
+    }
 }
