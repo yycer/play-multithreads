@@ -16,6 +16,8 @@ public class RedisTest {
     @Autowired
     JedisPool redisPoolFactory;
 
+
+//    Reference: https://www.cnblogs.com/rwxwsblog/p/5846752.html
     @Test
     public void jedisSimpleTest(){
         Jedis jedis = new Jedis("localhost", 6379);
