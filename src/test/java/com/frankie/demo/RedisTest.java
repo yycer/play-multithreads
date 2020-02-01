@@ -44,4 +44,19 @@ public class RedisTest {
             jedis.set("age", "25");
         }
     }
+
+    @Test
+    public void keySlot4096Test(){
+        Jedis jedis = new Jedis("localhost", 6379);
+        for (int i = 0; i <= 100000; i++){
+            StringBuilder sb = new StringBuilder();
+            sb.append("k");
+            sb.append(i);
+            String str = new String(sb);
+            Long keySlot = jedis.clusterKeySlot(str);
+            if (keySlot == 4096){
+                System.out.println(str);
+            }
+        }
+    }
 }

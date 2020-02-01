@@ -66,6 +66,21 @@ class DemoApplicationTests {
     }
 
     @Test
+    public void buildMsetTest(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("mset ");
+        for (int i = 1; i <= 200; i++){
+            sb.append("n");
+            sb.append(i);
+            sb.append(" v");
+            sb.append(i);
+            sb.append(" ");
+        }
+        String result = new String(sb);
+        System.out.println(result);
+    }
+
+    @Test
     public void print10Test(){
         for (int i = 0; i < 10; i++){
             System.out.print(i + " ");
