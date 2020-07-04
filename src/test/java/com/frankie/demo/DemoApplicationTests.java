@@ -61,6 +61,7 @@ class DemoApplicationTests {
             sb.append(" ");
         }
 
+
         String result = new String(sb);
         System.out.println(result);
     }
