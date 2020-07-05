@@ -1,4 +1,4 @@
-package com.frankie.demo.basic;
+package com.frankie.demo.chapter1;
 
 import java.util.Random;
 import java.util.concurrent.Callable;

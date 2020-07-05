@@ -1,11 +1,5 @@
-package com.frankie.demo.basic;
+package com.frankie.demo.chapter1;
 
-import com.sun.xml.internal.fastinfoset.algorithm.IEEE754FloatingPointEncodingAlgorithm;
-import org.omg.CORBA.IRObject;
-
-import javax.swing.plaf.PanelUI;
-import java.io.ObjectInputStream;
-import java.net.InetAddress;
 import java.util.ArrayDeque;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;

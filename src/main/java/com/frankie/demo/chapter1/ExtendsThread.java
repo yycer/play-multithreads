@@ -1,4 +1,4 @@
-package com.frankie.demo.basic;
+package com.frankie.demo.chapter1;
 
 /**
  * @author: Yao Frankie
