@@ -11,24 +11,25 @@ public class ScheduleTest {
 
     public static void main(String[] args) throws InterruptedException {
 
-        ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(10);
+        ScheduledExecutorService scheduledThreadPool = Executors
+                .newScheduledThreadPool(10);
 
         System.out.println("Start " + LocalDateTime.now());
         Runnable task3 = () -> {
             System.out.println("task3 " + LocalDateTime.now());
             try {
-                Thread.sleep(6000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         };
-//        scheduledThreadPool.scheduleWithFixedDelay(task3, 3, 5, TimeUnit.SECONDS);
-        scheduledThreadPool.scheduleAtFixedRate(task3, 3, 5, TimeUnit.SECONDS);
+//         scheduledThreadPool.schedule(task3, 3, TimeUnit.SECONDS);
+//         scheduledThreadPool.scheduleAtFixedRate(task3, 3, 5, TimeUnit.SECONDS);
+         scheduledThreadPool.scheduleWithFixedDelay(task3, 3, 5, TimeUnit.SECONDS);
+
         System.out.println("End   " + LocalDateTime.now());
 
-//        Thread.sleep(3000);
         scheduledThreadPool.awaitTermination(20, TimeUnit.SECONDS);
         scheduledThreadPool.shutdown();
-
     }
 }
